@@ -10,13 +10,13 @@ exports.addMessageController = async (req, res) => {
     try {
         const result = await Message.create(message)
         res.status(200).json({
-            status: "fail!",
+            status: "fail",
             message: "message insert successful",
             data: result
         })
     } catch (error) {
         res.status(400).json({
-            status: "fail!",
+            status: "fail",
             message: "couldn't insert the message",
             error: error.message
         })
@@ -28,18 +28,18 @@ exports.getMessageByIdController = async (req, res) => {
         const message = await Message.find({$_id:chatId});
         if (!message) {
             return res.status(404).json({
-                status: "fail!",
+                status: "fail",
                 message: "couldn't find the chat with this id"
             })
         }
         res.status(200).json({
-            status: "successs!",
+            status: "successs",
             message: "message found successful",
             data: message
         })
     } catch (error) {
         res.status(400).json({
-            status: "fail!",
+            status: "fail",
             message: "couldn't found the message",
             error: error.message
         })

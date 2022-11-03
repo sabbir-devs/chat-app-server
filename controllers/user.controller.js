@@ -12,7 +12,7 @@ exports.createUserController = async (req, res) => {
         };
         const user = await User.create(newUser);
         res.status(200).json({
-            status: "success!",
+            status: "success",
             message: "user creat successful!",
             data: user
         })
@@ -25,8 +25,9 @@ exports.createUserController = async (req, res) => {
     }
 }
 exports.loginUserController = async (req, res) => {
+    const { username } = req.body;
     try {
-        const user = await User.find({username: req.body.username});
+        const user = await User.find({ username });
         if (user && user.length > 0) {
             const isValidPassword = await bcrypt.compare(req.body.password, user[0].password);
             if (isValidPassword) {
@@ -34,23 +35,24 @@ exports.loginUserController = async (req, res) => {
                     username: user[0].username,
                     userId: user[0]._id,
                 }, process.env.JWT_TOKEN_secret, {
-                    expiresIn: "1y"
+                    expiresIn: "1m"
                 });
                 res.status(200).json({
-                    status: "success!",
+                    status: "success",
                     message: "login successful",
                     data: user,
                     access_token: token
                 })
             } else {
                 res.status(401).json({
-                    status: "fail!",
+                    status: "fail",
+                    data: [],
                     message: "wrong password",
                 })
             }
         } else {
             res.status(401).json({
-                status: "fail!",
+                status: "fail",
                 message: "user not found!",
             })
         }
@@ -58,6 +60,30 @@ exports.loginUserController = async (req, res) => {
         res.status(400).json({
             status: "fail",
             message: "user login failed!",
+            error: error.message
+        })
+    }
+}
+exports.getUserByIdController = async (req, res) => {
+    const { id } = req.params
+    try {
+        const user = await User.findById(id);
+        if (!user) {
+            res.status(404).json({
+                status: 'fail',
+                message: 'no user exist in database with this ID',
+                data: []
+            })
+        }
+        res.status(200).json({
+            status: "success!",
+            message: "user find successful!",
+            data: user
+        })
+    } catch (error) {
+        res.status(500).json({
+            status: "fail!",
+            message: "couldn't find the user",
             error: error.message
         })
     }
