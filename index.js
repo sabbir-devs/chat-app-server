@@ -5,7 +5,8 @@ const cors = require('cors');
 
 // middloeware
 app.use(express.json());
-app.use(cors())
+app.use(cors());
+
 
 // router
 const chatRoute = require("./routes/chat.route");

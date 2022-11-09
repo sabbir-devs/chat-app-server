@@ -13,6 +13,10 @@ const userSchema = mongoose.Schema({
         unique:[true,"username alrady in use"],
         message:"{VALUE}"
     },
+    profilePicture:{
+        type:String,
+        trim:true
+    },
     password: {
         type: String,
         required:true

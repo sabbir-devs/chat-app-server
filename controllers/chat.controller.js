@@ -46,13 +46,13 @@ exports.findChatController = async (req, res, next) => {
             members: { $all: [req.params.firstId, req.params.secondId] },
         })
         res.status(200).json({
-            status: "success!",
+            status: "success",
             message: "chat find successful!",
             data: chat
         })
     } catch (error) {
         res.status(500).json({
-            status: "fail!",
+            status: "fail",
             message: "couldn't find the chat",
             error: error.message
         })

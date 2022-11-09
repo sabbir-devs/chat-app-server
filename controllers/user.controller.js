@@ -88,3 +88,20 @@ exports.getUserByIdController = async (req, res) => {
         })
     }
 }
+
+// upload profile picture
+exports.profilePictureUploadController = (req, res) => {
+    try {
+        res.status(200).json({
+            status:'success',
+            message:"image upload successful",
+            data: req.file
+        })
+    } catch (error) {
+        res.status(400).json({
+            status:'fail',
+            message:"couldn't upload the picture",
+            error: error.message
+        })
+    }
+}
